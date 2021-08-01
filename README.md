@@ -63,6 +63,8 @@
  - Após isso, copie a chave disponibilizada na linha "Ready! Your webhook signing secret is..." e atribua seu valor para uma nova variável no arquivo 'env.local' criado anteriormente, desse modo:
 	 - `STRIPE_WEBHOOK_SECRET = *Chave obtida*`
 
+- Para efetuar uma assinatura pode-se utilizar o número 4242 4242 4242 4242, como número do cartão, pois é um padrão de teste.
+
 ### Github
 
  - Crie uma aplicação OAuth no github e copie a chave e o id disponibilizados. Com isso em mãos, coloque no arquivo 'env.local' deste modo:
