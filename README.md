@@ -1,34 +1,105 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Ignews
 
-First, run the development server:
+#### Aplicação JAMStack, desenvolvida com o objetivo de praticar conceitos dentro do ecossistema do nextJS. Consiste num serviço de assinatura, que possibilita aos assinantes o acesso aos artigos publicados.
+<img src="https://i.imgur.com/aiaeL8A.png" alt="Home do site, com feed de fotos" width="80%"/>
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## 🛠️ Tencologias utilizadas
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ - NextAuth: para autenticação com provedores (Github);
+ - FaunaDB: armazenamento dos dados do usuário e informações sobre a assinatura;
+ - Stripe: Gerenciar assinaturas e pagamentos 
+ - NextJS: SSG e SSR
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### 💻 Previews:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+#### - Preview 1:
+<img src="/gifs/preview1.gif?raw=true" width="100%">
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+#### - Preview 2:
+<img src="/gifs/preview2.gif?raw=true" width="100%">
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## 👷  Executando o projeto
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+ ### Baixando repositório para sua máquina
+    # Clone o repositório com:
+    git clone https://github.com/FranciscoBraaz/ig-news
+    
+    # Navegue para a pasta raíz com:
+    cd ignews
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    
+   ### Instalando dependências
+   
 
-## Deploy on Vercel
+    # Baixe as dependências com:
+    yarn install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Configurando aplicações de terceiros
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### Stripe
+
+ - É necessário criar uma conta no stripe e criar um novo produto dentro
+   da plataforma. Após a criação do novo produto, é preciso copiar as
+   keys (privada e pública) vinculadas a esse produto.
+   
+ - Em seguida crie um arquivo "env.local" na pasta raiz do projeto e crie as seguintes variáveis com os valores das keys já obtidas (Ignore os asteriscos):
+  ```
+   STRIPE_API_KEY=*Sua key privada*
+   NEXT_PUBLIC_STRIPE_PUBLIC_KEY = *Sua key pública*
+   STRIPE_SUCCESS_URL = http://localhost:3000/posts
+   STRIPE_CANCEL_URL = http://localhost:3000/
+  ``` 
+
+ 
+ - Posteriormente, baixe o stripe cli para sua máquina - [Stripe CLI](https://stripe.com/docs/stripe-cli) - e execute o arquivo baixado. Em seguida, abra o prompt de comando e execute o comando:
+	 - `stripe login`
+	 
+ -  Após autorizar a aplicação, execute:
+	 - `stripe listen --forward-to localhost:3000/api/webhooks`
+
+
+ - Após isso, copie a chave disponibilizada na linha "Ready! Your webhook signing secret is..." e atribua seu valor para uma nova variável no arquivo 'env.local' criado anteriormente, desse modo:
+	 - `STRIPE_WEBHOOK_SECRET = *Chave obtida*`
+
+### Github
+
+ - Crie uma aplicação OAuth no github e copie a chave e o id disponibilizados. Com isso em mãos, coloque no arquivo 'env.local' deste modo:
+  ```
+   GITHUB_CLIENT_ID = *Seu id*
+   GITHUB_CLIENT_SECRET = *Sua chave*
+  ```
+
+### FaunaDB
+
+ - É necessário ter uma conta no FaunaDB e criar um um novo banco. Esse banco deve possuir:
+	 - Collections: 
+		 - subscriptions
+		 - users
+	- Indexs:
+		- subscription_by_id
+		- subscription_by_status
+		- subscription_by_user_ref
+		- user_by_email
+		- user_by_stripe_customer_id
+ - Obtenha a key desse banco criado e a coloque no arquivo 'env.local':
+	 - `FAUNADB_KEY = *Sua key*`
+	
+	
+ ### PrismicCMS
+ 
+ - É preciso possuir uma conta no PrismicCMS e criar alguns artigos para popular a aplicação. Após a criação da conta e dos artigos, copie suas credencias e coloque-as no arquivo 'env.local'. 
+  ```
+   PRISMIC_ENDPOINT = Seu endpoint
+   PRISMIC_ACCESS_TOKEN 
+  ```
+
+ 
+    
+
+#### Scripts
+Para executar o projeto:
+
+    # Na pasta raíz do projeto, execute:
+    yarn dev
