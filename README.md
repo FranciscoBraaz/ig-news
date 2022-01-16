@@ -94,7 +94,7 @@
  - É preciso possuir uma conta no PrismicCMS e criar alguns artigos para popular a aplicação. Após a criação da conta e dos artigos, copie suas credencias e coloque-as no arquivo 'env.local'. 
   ```
    PRISMIC_ENDPOINT = Seu endpoint
-   PRISMIC_ACCESS_TOKEN 
+   PRISMIC_ACCESS_TOKEN = Seu token
   ```
 
  
